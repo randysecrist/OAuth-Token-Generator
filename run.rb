@@ -39,8 +39,8 @@ use OmniAuth::Builder do
   provider :facebook, CONSUMER_KEYS[:facebook][:key], CONSUMER_KEYS[:facebook][:secret]
   provider :linkedin, CONSUMER_KEYS[:linkedin][:key], CONSUMER_KEYS[:linkedin][:secret]
   provider :github, CONSUMER_KEYS[:github][:key], CONSUMER_KEYS[:github][:secret]
-  provider( :mhealth, CONSUMER_KEYS[:mhealth][:key], CONSUMER_KEYS[:mhealth][:secret],
-    {:client_options => {:ssl => {verify: false}}
+  provider(:mhealth, CONSUMER_KEYS[:mhealth][:key], CONSUMER_KEYS[:mhealth][:secret],
+    {:client_options => {:ssl => {verify: false}}}
  )
 end
 
