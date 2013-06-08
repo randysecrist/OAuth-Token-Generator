@@ -10,6 +10,14 @@ CONSUMER_KEYS = {
   linkedin: {
     key: '',
     secret: ''
+  },
+  github: {
+    key: '',
+    secret: ''
+  },
+  mhealth: {
+    key: '',
+    secret: ''
   }
 }
 
@@ -18,11 +26,23 @@ require 'omniauth'
 require 'omniauth-twitter'
 require 'omniauth-facebook'
 require 'omniauth-linkedin'
+require 'omniauth-github'
+require 'omniauth-mhealth'
 
 use Rack::Session::Cookie
-use OmniAuth::Strategies::Twitter, CONSUMER_KEYS[:twitter][:key], CONSUMER_KEYS[:twitter][:secret]
-use OmniAuth::Strategies::Facebook, CONSUMER_KEYS[:facebook][:key], CONSUMER_KEYS[:facebook][:secret]
-use OmniAuth::Strategies::LinkedIn, CONSUMER_KEYS[:linkedin][:key], CONSUMER_KEYS[:linkedin][:secret]
+
+# insecure but handy for testing
+# OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
+
+use OmniAuth::Builder do
+  provider :twitter, CONSUMER_KEYS[:twitter][:key], CONSUMER_KEYS[:twitter][:secret]
+  provider :facebook, CONSUMER_KEYS[:facebook][:key], CONSUMER_KEYS[:facebook][:secret]
+  provider :linkedin, CONSUMER_KEYS[:linkedin][:key], CONSUMER_KEYS[:linkedin][:secret]
+  provider :github, CONSUMER_KEYS[:github][:key], CONSUMER_KEYS[:github][:secret]
+  provider( :mhealth, CONSUMER_KEYS[:mhealth][:key], CONSUMER_KEYS[:mhealth][:secret],
+    {:client_options => {:ssl => {verify: false}}
+ )
+end
 
 get '/' do
   CONSUMER_KEYS.map do |name, consumer|
@@ -31,6 +51,7 @@ get '/' do
 end
 
 get '/auth/:name/callback' do
+  content_type 'application/json'
   auth = request.env['omniauth.auth']
-  auth.inspect
+  auth.to_json
 end
