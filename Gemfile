@@ -12,4 +12,4 @@ gem 'omniauth-linkedin'
 gem 'omniauth-github'
 gem 'omniauth-mhealth'
 
-gem 'debugger'
+gem 'byebug'
